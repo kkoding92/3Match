@@ -1,10 +1,17 @@
-﻿public class Cell
+﻿namespace KKoding92.Board
 {
-    protected CellType m_CellType;
-    public CellType type
+    public class Cell
     {
-        get { return m_CellType; }
-        set { m_CellType = value; }
-    }
+        protected CellType m_CellType;
+        public Cell(CellType cellType)
+        {
+            m_CellType = cellType;
+        }
 
+        public CellType type
+        {
+            get { return m_CellType; }
+            set { m_CellType = value; }
+        }
+    }
 }

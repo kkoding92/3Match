@@ -1,9 +1,18 @@
-﻿public class Block
+﻿namespace KKoding92.Board
 {
-    BlockType m_BlockType;
-    public BlockType type
+    public class Block
     {
-        get { return m_BlockType; }
-        set { m_BlockType = value; }
+        BlockType m_BlockType;
+
+        public Block(BlockType blockType)
+        {
+            m_BlockType = blockType;
+        }
+
+        public BlockType type
+        {
+            get { return m_BlockType; }
+            set { m_BlockType = value; }
+        }
     }
 }

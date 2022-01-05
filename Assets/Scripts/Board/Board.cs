@@ -1,23 +1,28 @@
-﻿public class Board
+﻿using KKoding92.Stage;
+
+namespace KKoding92.Board
 {
-    int m_nRow;
-    int m_nCol;
-
-    public int maxRow { get { return m_nRow; } }
-    public int maxCol { get { return m_nCol; } }
-
-    Cell[,] m_Cells;
-    public Cell[,] cells { get { return m_Cells; } }
-
-    Block[,] m_Blocks;
-    public Block[,] blocks { get { return m_Blocks; } }
-
-    public Board(int nRow, int nCol)
+    public class Board
     {
-        m_nRow = nRow;
-        m_nCol = nCol;
+        int m_nRow;
+        int m_nCol;
 
-        m_Cells = new Cell[nRow, nCol];
-        m_Blocks = new Block[nRow, nCol];
+        public int maxRow { get { return m_nRow; } }
+        public int maxCol { get { return m_nCol; } }
+
+        Cell[,] m_Cells;
+        public Cell[,] cells { get { return m_Cells; } }
+
+        Block[,] m_Blocks;
+        public Block[,] blocks { get { return m_Blocks; } }
+
+        public Board(int nRow, int nCol)
+        {
+            m_nRow = nRow;
+            m_nCol = nCol;
+
+            m_Cells = new Cell[nRow, nCol];
+            m_Blocks = new Block[nRow, nCol];
+        }
     }
 }

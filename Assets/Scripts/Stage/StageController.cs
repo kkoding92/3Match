@@ -1,23 +1,32 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class StageController : MonoBehaviour
+namespace KKoding92.Stage
 {
-    bool m_bInit;
-    Stage m_Stage;
-
-    void Start()
+    public class StageController : MonoBehaviour
     {
-        InitStage();
+        bool m_bInit;
+        Stage m_Stage;
+
+        void Start()
+        {
+            InitStage();
+        }
+
+        private void InitStage()
+        {
+            if (m_bInit)
+                return;
+
+            m_bInit = true;
+
+            BuildStage();
+            m_Stage.PrintAll();
+        }
+
+        void BuildStage()
+        {
+            //1. Stage 구성
+            m_Stage = StageBuilder.BuildStage(nStage: 0, row: 9, col: 9);
+        }
     }
-
-    private void InitStage()
-    {
-        if (m_bInit)
-            return;
-
-        m_bInit = true;
-    }
-
 }

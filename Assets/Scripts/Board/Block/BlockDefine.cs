@@ -1,5 +1,8 @@
-﻿public enum BlockType
+﻿namespace KKoding92.Board
 {
-    EMPTY = 0,
-    BASIC = 1
+    public enum BlockType
+    {
+        EMPTY = 0,
+        BASIC = 1
+    }
 }
