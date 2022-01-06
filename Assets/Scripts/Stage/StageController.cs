@@ -24,7 +24,7 @@ namespace KKoding92.Stage
             m_bInit = true;
 
             BuildStage();
-            m_Stage.PrintAll();
+            //m_Stage.PrintAll();
         }
 
         void BuildStage()
