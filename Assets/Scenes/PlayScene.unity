@@ -251,7 +251,8 @@ MonoBehaviour:
   m_Container: {fileID: 794495825}
   m_CellPrefab: {fileID: 7979568197614012693, guid: bfa7aeef8e35a4d409c27d80ec485580,
     type: 3}
-  m_BlockPrefab: {fileID: 0}
+  m_BlockPrefab: {fileID: 6467103210200065857, guid: b65b50a9ac01101418cd17e5b498333f,
+    type: 3}
 --- !u!4 &794495825
 Transform:
   m_ObjectHideFlags: 0
