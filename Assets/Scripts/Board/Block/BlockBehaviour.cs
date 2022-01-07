@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
+using KKoding92.Scriptable;
 
 namespace KKoding92.Board
 {
     public class BlockBehaviour : MonoBehaviour
     {
+        [SerializeField] BlockConfig m_BlockConfig;
+
         Block m_Block;
         SpriteRenderer m_SpriteRenderer;
 
@@ -24,6 +27,10 @@ namespace KKoding92.Board
             if(m_Block.type == BlockType.EMPTY)
             {
                 m_SpriteRenderer.sprite = null;
+            }
+            else if(m_Block.type == BlockType.BASIC)
+            {
+                m_SpriteRenderer.sprite = m_BlockConfig.basicBlockSprites[1];
             }
         }
     }
