@@ -30,7 +30,7 @@ namespace KKoding92.Board
             }
             else if(m_Block.type == BlockType.BASIC)
             {
-                m_SpriteRenderer.sprite = m_BlockConfig.basicBlockSprites[1];
+                m_SpriteRenderer.sprite = m_BlockConfig.basicBlockSprites[(int)m_Block.breed];
             }
         }
     }

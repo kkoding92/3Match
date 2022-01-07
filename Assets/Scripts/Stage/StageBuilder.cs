@@ -30,7 +30,8 @@ namespace KKoding92.Stage
 
         Block SpawnBlockForStage(int nRow, int nCol)
         {
-            return new Block(BlockType.BASIC);
+            //return new Block(BlockType.BASIC);
+            return nRow == nCol ? SpawnEmptyBlock() : SpawnBlock();
         }
 
         Cell SpawnCellForStage(int nRow, int nCol)
@@ -45,6 +46,18 @@ namespace KKoding92.Stage
             Stage stage = stageBuilder.ComposeStage(row, col);
 
             return stage;
+        }
+
+        public Block SpawnBlock()
+        {
+            return BlockFactory.SpawnBlock(BlockType.BASIC);
+        }
+
+        public Block SpawnEmptyBlock()
+        {
+            Block newBlock = BlockFactory.SpawnBlock(BlockType.EMPTY);
+
+            return newBlock;
         }
     }
 }

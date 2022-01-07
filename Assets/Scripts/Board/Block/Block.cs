@@ -7,6 +7,7 @@ namespace KKoding92.Board
         BlockType m_BlockType;
 
         protected BlockBehaviour m_BlockBehaviour;
+        protected BlockBreed m_Breed;
 
         public Block(BlockType blockType)
         {
@@ -23,6 +24,16 @@ namespace KKoding92.Board
             }
         }
 
+        public BlockBreed breed
+        {
+            get { return m_Breed; }
+            set
+            {
+                m_Breed = value;
+                m_BlockBehaviour?.UpdateView(true);
+            }
+        }
+
         public BlockType type
         {
             get { return m_BlockType; }
@@ -31,6 +42,10 @@ namespace KKoding92.Board
 
         internal Block InstantiateBlockObj(GameObject blockPrefab, Transform containerObj)
         {
+            //유효하지 않은 블럭인 경우 Block Obj를 생성하지 않음.
+            if (IsValidate() == false)
+                return null;
+
             //1. Block 오브젝트를 생성한다.
             GameObject newObj = Object.Instantiate(blockPrefab, new Vector3(0, 0, 0), Quaternion.identity);
 
@@ -46,6 +61,11 @@ namespace KKoding92.Board
         internal void Move(float x, float y)
         {
             blockBehaviour.transform.position = new Vector3(x, y);
+        }
+
+        public bool IsValidate()
+        {
+            return type != BlockType.EMPTY;
         }
     }
 }
