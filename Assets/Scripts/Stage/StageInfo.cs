@@ -18,12 +18,11 @@ namespace KKoding92.Stage
 
         public CellType GetCellType(int nRow, int nCol)
         {
-            int nTempIndex = nRow * col + nCol;
+            Debug.Assert(cells != null && cells.Length > nRow * col + nCol, $"Invalid Row/Col = {nRow}, {nCol}");
 
-            Debug.Assert(cells != null && cells.Length > nTempIndex);
-
-            if (cells.Length > nTempIndex)
-                return (CellType)cells[nTempIndex];
+            int revisedRow = (row - 1) - nRow;
+            if (cells.Length > revisedRow * col + nCol)
+                return (CellType)cells[revisedRow * col + nCol];
 
             Debug.Assert(false);
 
