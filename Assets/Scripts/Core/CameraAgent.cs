@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraAgent : MonoBehaviour
+namespace KKoding92.Core
 {
-    [SerializeField] Camera m_TargetCamera;
-    [SerializeField] float m_BoardUnit;
-
-    void Start()
+    public class CameraAgent : MonoBehaviour
     {
-        m_TargetCamera.orthographicSize = m_BoardUnit / m_TargetCamera.aspect;
+        [SerializeField] Camera m_TargetCamera;
+        [SerializeField] float m_BoardUnit;
+
+        void Start()
+        {
+            m_TargetCamera.orthographicSize = m_BoardUnit / m_TargetCamera.aspect;
+        }
     }
 }

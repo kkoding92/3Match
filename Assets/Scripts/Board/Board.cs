@@ -36,7 +36,11 @@ namespace KKoding92.Board
             m_BlockPrefab = blockPrefab;
             m_Container = container;
 
-            //2. Cell, Block Prefab을 이용해서 Board에 Cell/Block GameObject를 추가한다.
+            //2. 3매치된 블럭이 없도록 섞는다.  
+            BoardShuffler shuffler = new BoardShuffler(this, true);
+            shuffler.Shuffle();
+
+            //3. Cell, Block Prefab을 이용해서 Board에 Cell/Block GameObject를 추가한다.
             float initX = CalcInitX(0.5f);
             float initY = CalcInitY(0.5f);
             for (int nRow = 0; nRow < m_nRow; nRow++)
@@ -60,6 +64,31 @@ namespace KKoding92.Board
         public float CalcInitY(float offset = 0)
         {
             return -m_nRow / 2.0f + offset;
+        }
+
+        public bool CanShuffle(int nRow, int nCol, bool bLoading)
+        {
+            if (!m_Cells[nRow, nCol].type.IsBlockMovableType())
+                return false;
+
+            return true;
+        }
+
+        public void ChangeBlock(Block block, BlockBreed notAllowedBreed)
+        {
+            BlockBreed genBreed;
+
+            while (true)
+            {
+                genBreed = (BlockBreed)UnityEngine.Random.Range(0, 6);
+
+                if (notAllowedBreed == genBreed)
+                    continue;
+
+                break;
+            }
+
+            block.breed = genBreed;
         }
     }
 }
