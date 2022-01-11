@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using KKoding92.Board;
 using KKoding92.Util;
+using KKoding92.Core;
+using System.Collections;
 
 namespace KKoding92.Stage
 {
@@ -52,6 +54,62 @@ namespace KKoding92.Stage
                 return false;
 
             return true;
+        }
+
+        public IEnumerator CoDoSwipeAction(int nRow, int nCol, Swipe swipeDir, Returnable<bool> actionResult)
+        {
+            actionResult.value = false; //코루틴 리턴값 RESET
+
+            //1. 스와이프되는 상대 블럭 위치를 구한다. (using SwipeDir Extension Method)
+            int nSwipeRow = nRow, nSwipeCol = nCol;
+            nSwipeRow += swipeDir.GetTargetRow(); //Right : +1, LEFT : -1
+            nSwipeCol += swipeDir.GetTargetCol(); //UP : +1, DOWN : -1
+
+            Debug.Assert(nRow != nSwipeRow || nCol != nSwipeCol, "Invalid Swipe : ({nSwipeRow}, {nSwipeCol})");
+            Debug.Assert(nSwipeRow >= 0 && nSwipeRow < maxRow && nSwipeCol >= 0 && nSwipeCol < maxCol, $"Swipe 타겟 블럭 인덱스 오류 = ({nSwipeRow}, {nSwipeCol}) ");
+
+            //2. 스와이프 가능한 블럭인지 체크한다. (인덱스 Validation은 호출 전에 검증됨)
+            if (m_Board.IsSwipeable(nSwipeRow, nSwipeCol))
+            {
+                //2.1 스와이프 대상 블럭(소스, 타겟)과 각 블럭의 이동전 위치를 저장한다.
+                Block targetBlock = blocks[nSwipeRow, nSwipeCol];
+                Block baseBlock = blocks[nRow, nCol];
+                Debug.Assert(baseBlock != null && targetBlock != null);
+
+                Vector3 basePos = baseBlock.blockObj.transform.position;
+                Vector3 targetPos = targetBlock.blockObj.transform.position;
+
+                //2.2 스와이프 액션을 실행한다.
+                if (targetBlock.IsSwipeable(baseBlock))
+                {
+                    //2.2.1 상대방의 블럭 위치로 이동하는 애니메이션을 수행한다
+                    baseBlock.MoveTo(targetPos, Constants.SWIPE_DURATION);
+                    targetBlock.MoveTo(basePos, Constants.SWIPE_DURATION);
+
+                    yield return new WaitForSeconds(Constants.SWIPE_DURATION);
+
+                    //2.2.2 Board에 저장된 블럭의 위치를 교환한다
+                    blocks[nRow, nCol] = targetBlock;
+                    blocks[nSwipeRow, nSwipeCol] = baseBlock;
+
+                    actionResult.value = true;
+                }
+            }
+
+            yield break;
+        }
+
+        public bool IsValideSwipe(int nRow, int nCol, Swipe swipeDir)
+        {
+            switch (swipeDir)
+            {
+                case Swipe.DOWN: return nRow > 0; ;
+                case Swipe.UP: return nRow < maxRow - 1;
+                case Swipe.LEFT: return nCol > 0;
+                case Swipe.RIGHT: return nCol < maxCol - 1;
+                default:
+                    return false;
+            }
         }
 
         public void PrintAll()

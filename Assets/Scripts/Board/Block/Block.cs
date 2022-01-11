@@ -103,5 +103,15 @@ namespace KKoding92.Board
         {
             return type != BlockType.EMPTY;
         }
+
+        public void MoveTo(Vector3 to, float duration)
+        {
+            m_BlockBehaviour.StartCoroutine(Util.Action2D.MoveTo(blockObj, to, duration));
+        }
+
+        public bool IsSwipeable(Block baseBlock)
+        {
+            return true;
+        }
     }
 }

@@ -12,6 +12,7 @@ namespace KKoding92.Stage
         bool m_bInit;
         Stage m_Stage;
         InputManager m_InputManager;
+        ActionManager m_ActionManager;
 
         //Members for Event
         bool m_bTouchDown;          //입력상태 처리 플래그, 유효한 블럭을 클릭한 경우 true
@@ -65,6 +66,9 @@ namespace KKoding92.Stage
 
                 Debug.Log($"Swipe : {swipeDir} , Block = {m_BlockDownPos}");
 
+                if (swipeDir != Swipe.NA)
+                    m_ActionManager.DoSwipeAction(m_BlockDownPos.row, m_BlockDownPos.col, swipeDir);
+
                 m_bTouchDown = false;   //클릭 상태 플래그 OFF
             }
         }
@@ -84,7 +88,8 @@ namespace KKoding92.Stage
         void BuildStage()
         {
             //1. Stage 구성
-            m_Stage = StageBuilder.BuildStage(nStage: 1);
+            m_Stage = StageBuilder.BuildStage(nStage: 3);
+            m_ActionManager = new ActionManager(m_Container, m_Stage);
 
             m_Stage.ComposeStage(m_CellPrefab, m_BlockPrefab, m_Container);
         }
