@@ -56,6 +56,11 @@ namespace KKoding92.Board
             }
         }
 
+        public bool IsSwipeable(int nRow, int nCol)
+        {
+            return m_Cells[nRow, nCol].type.IsBlockMovableType();
+        }
+
         public float CalcInitX(float offset = 0)
         {
             return -m_nCol / 2.0f + offset;

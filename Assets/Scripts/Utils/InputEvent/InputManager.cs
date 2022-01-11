@@ -38,5 +38,10 @@ namespace KKoding92.Util
 
             return vtContainerLocal;
         }
+
+        public Swipe EvalSwipeDir(Vector2 vtStart, Vector2 vtEnd)
+        {
+            return TouchEvaluator.EvalSwipeDir(vtStart, vtEnd);
+        }
     }
 }
