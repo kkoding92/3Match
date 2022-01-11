@@ -99,6 +99,11 @@ namespace KKoding92.Stage
             yield break;
         }
 
+        public IEnumerator Evaluate(Returnable<bool> matchResult)
+        {
+            yield return m_Board.Evaluate(matchResult);
+        }
+
         public bool IsValideSwipe(int nRow, int nCol, Swipe swipeDir)
         {
             switch (swipeDir)

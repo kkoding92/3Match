@@ -33,5 +33,10 @@ namespace KKoding92.Board
                 m_SpriteRenderer.sprite = m_BlockConfig.basicBlockSprites[(int)m_Block.breed];
             }
         }
+
+        public void DoActionClear()
+        {
+            Destroy(gameObject);
+        }
     }
 }

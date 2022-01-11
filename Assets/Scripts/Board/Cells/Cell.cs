@@ -45,5 +45,14 @@ namespace KKoding92.Board
         {
             cellBehaviour.transform.position = new Vector3(x, y);
         }
+
+        /*
+         * Cell 클래스 조회 메소드 추가
+         * Cell이 블럭 이동/매치 등에 장애가 되는 종류인지 조회한다.
+         */
+        public bool IsObstracle()
+        {
+            return type == CellType.EMPTY;
+        }
     }
 }
