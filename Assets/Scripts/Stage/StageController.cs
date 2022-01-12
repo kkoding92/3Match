@@ -88,7 +88,7 @@ namespace KKoding92.Stage
         void BuildStage()
         {
             //1. Stage 구성
-            m_Stage = StageBuilder.BuildStage(nStage: 3);
+            m_Stage = StageBuilder.BuildStage(nStage: 1);
             m_ActionManager = new ActionManager(m_Container, m_Stage);
 
             m_Stage.ComposeStage(m_CellPrefab, m_BlockPrefab, m_Container);

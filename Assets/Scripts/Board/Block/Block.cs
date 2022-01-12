@@ -9,6 +9,7 @@ namespace KKoding92.Board
         BlockType m_BlockType;
 
         protected BlockBehaviour m_BlockBehaviour;
+        BlockActionBehaviour m_BlockActionBehaviour;
         protected BlockBreed m_Breed;
 
         Vector2Int m_vtDuplicate;       //블럭 중복 개수, Shuffle시에 중복검사에 사용.
@@ -54,6 +55,22 @@ namespace KKoding92.Board
         public bool IsMatchableBlock()
         {
             return !(type == BlockType.EMPTY);
+        }
+
+        public bool isMoving
+        {
+            get
+            {
+                return blockObj != null && m_BlockActionBehaviour.isMoving;
+            }
+        }
+
+        public Vector2 dropDistance
+        {
+            set
+            {
+                m_BlockActionBehaviour?.MoveDrop(value);
+            }
         }
 
         public Block(BlockType blockType)
@@ -110,6 +127,7 @@ namespace KKoding92.Board
 
             //3. Block 오브젝트에 적용된 BlockBehaviour 컴포너트를 보관한다.
             this.blockBehaviour = newObj.transform.GetComponent<BlockBehaviour>();
+            m_BlockActionBehaviour = newObj.transform.GetComponent<BlockActionBehaviour>();
 
             return this;
         }
