@@ -28,7 +28,7 @@ namespace KKoding92.Stage
 
         internal void ComposeStage(GameObject cellPrefab, GameObject blockPrefab, Transform container)
         {
-            m_Board.ComposeStage(cellPrefab, blockPrefab, container);
+            m_Board.ComposeStage(cellPrefab, blockPrefab, container, m_StageBuilder);
         }
 
         public bool IsOnValideBlock(Vector2 point, out BlockPos blockPos)
@@ -131,7 +131,10 @@ namespace KKoding92.Stage
             //1. 제거된 블럭에 따라, 블럭 재배치(상위 -> 하위 이동/애니메이션)
             yield return m_Board.ArrangeBlocksAfterClean(unfilledBlocks, movingBlocks);
 
-            //2. 유저에게 생성된 블럭이 잠시동안 보이도록 다른 블럭이 드롭되는 동안 대기한다.
+            //2. 재배치 완료(이동 애니메이션 완료)후, 비어있는 블럭 다시 생성
+            yield return m_Board.SpawnBlocksAfterClean(movingBlocks);
+
+            //3. 유저에게 생성된 블럭이 잠시동안 보이도록 다른 블럭이 드롭되는 동안 대기한다.
             yield return WaitForDropping(movingBlocks);
         }
 

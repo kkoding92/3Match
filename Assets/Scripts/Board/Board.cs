@@ -18,6 +18,7 @@ namespace KKoding92.Board
         Transform m_Container;
         GameObject m_CellPrefab;
         GameObject m_BlockPrefab;
+        StageBuilder m_StageBuilder;
 
         BoardEnumerator m_Enumerator;
 
@@ -41,12 +42,13 @@ namespace KKoding92.Board
             m_Enumerator = new BoardEnumerator(this);
         }
 
-        internal void ComposeStage(GameObject cellPrefab, GameObject blockPrefab, Transform container)
+        internal void ComposeStage(GameObject cellPrefab, GameObject blockPrefab, Transform container, StageBuilder stageBuilder)
         {
             //1. 스테이지 구성에 필요한 Cell,Block, Container(Board) 정보를 저장한다.
             m_CellPrefab = cellPrefab;
             m_BlockPrefab = blockPrefab;
             m_Container = container;
+            m_StageBuilder = stageBuilder;
 
             //2. 3매치된 블럭이 없도록 섞는다.  
             BoardShuffler shuffler = new BoardShuffler(this, true);
@@ -310,6 +312,61 @@ namespace KKoding92.Board
             {
                 unfilledBlocks.AddRange(emptyRemainBlocks);
             }
+        }
+
+        /*
+         * 비어있는 블럭을 다시 생성해서 전체 보드를 다시 구성한다
+         */
+        public IEnumerator SpawnBlocksAfterClean(List<Block> movingBlocks)
+        {
+            for (int nCol = 0; nCol < m_nCol; nCol++)
+            {
+                for (int nRow = 0; nRow < m_nRow; nRow++)
+                {
+                    //비어있는 블럭이 있는 경우, 상위 열은 모두 비어있거나, 장애물로 인해서 남아있음.
+                    if (m_Blocks[nRow, nCol] == null)
+                    {
+                        int nTopRow = nRow;
+
+                        int nSpawnBaseY = 0;
+                        for (int y = nTopRow; y < m_nRow; y++)
+                        {
+                            if (m_Blocks[y, nCol] != null || !CanBlockBeAllocatable(y, nCol))
+                                continue;
+
+                            Block block = SpawnBlockWithDrop(y, nCol, nSpawnBaseY, nCol);
+                            if (block != null)
+                                movingBlocks.Add(block);
+
+                            nSpawnBaseY++;
+                        }
+
+                        break;
+                    }
+                }
+            }
+            yield return null;
+        }
+
+        /*
+         * 블럭을 생성하고 목적지(nRow, nCol) 까지 드롭한다
+         * @param nRow, nCol : 생성후 보드에 저장되는 위치
+         * @param nSpawnedRow, nSpawnedCol : 화면에 생성되는 위치, nRow, nCol 위치까지 드롭 액션이 연출된다
+         */
+        Block SpawnBlockWithDrop(int nRow, int nCol, int nSpawnedRow, int nSpawnedCol)
+        {
+            float fInitX = CalcInitX(Core.Constants.BLOCK_ORG);
+            float fInitY = CalcInitY(Core.Constants.BLOCK_ORG) + m_nRow;
+
+            Block block = m_StageBuilder.SpawnBlock().InstantiateBlockObj(m_BlockPrefab, m_Container);
+            if (block != null)
+            {
+                m_Blocks[nRow, nCol] = block;
+                block.Move(fInitX + (float)nSpawnedCol, fInitY + (float)(nSpawnedRow));
+                block.dropDistance = new Vector2(nSpawnedCol - nCol, m_nRow + (nSpawnedRow - nRow));
+            }
+
+            return block;
         }
 
         /*
