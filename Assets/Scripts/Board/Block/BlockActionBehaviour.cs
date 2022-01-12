@@ -1,4 +1,5 @@
-﻿using KKoding92.Util;
+﻿using KKoding92.Scriptable;
+using KKoding92.Util;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,7 @@ namespace KKoding92.Board
 {
     public class BlockActionBehaviour : MonoBehaviour
     {
+        [SerializeField] BlockConfig m_BlockConfig;
         public bool isMoving { get; set; }
 
         Queue<Vector3> m_MovementQueue = new Queue<Vector3>(); //x=col, y=row, z = acceleration
@@ -33,7 +35,9 @@ namespace KKoding92.Board
             {
                 Vector2 vtDestination = m_MovementQueue.Dequeue();
 
-                float duration = Core.Constants.DROP_TIME;
+                int dropIndex = System.Math.Min(9, System.Math.Max(1, (int)Mathf.Abs(vtDestination.y)));
+                float duration = m_BlockConfig.dropSpeed[dropIndex - 1];
+
                 yield return CoStartDropSmooth(vtDestination, duration * acc);
             }
 
