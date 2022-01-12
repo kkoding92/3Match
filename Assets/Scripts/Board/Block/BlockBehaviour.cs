@@ -45,6 +45,8 @@ namespace KKoding92.Board
          */
         IEnumerator CoStartSimpleExplosion(bool bDestroy = true)
         {
+            yield return Util.Action2D.Scale(transform, Core.Constants.BLOCK_DESTROY_SCALE, 4f);
+
             //1. 폭파시키는 효과 연출 : 블럭 자체의 Clear 효과를 연출한다 (모든 블럭 동일)
             GameObject explosionObj = m_BlockConfig.GetExplosionObject(BlockQuestType.CLEAR_SIMPLE);
             ParticleSystem.MainModule newModule = explosionObj.GetComponent<ParticleSystem>().main;
