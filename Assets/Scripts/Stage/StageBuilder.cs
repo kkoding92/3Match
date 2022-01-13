@@ -3,6 +3,9 @@ using KKoding92.Board;
 
 namespace KKoding92.Stage
 {
+    /*
+     * Stage 객체를 생성하고, Board를 구성하고 있는 Cell과 Block GameObect를 생성(Instantiate)해서 Board GameObject에 제공하는 역할을 담당
+     */
     public class StageBuilder
     {
         int m_nStage;
